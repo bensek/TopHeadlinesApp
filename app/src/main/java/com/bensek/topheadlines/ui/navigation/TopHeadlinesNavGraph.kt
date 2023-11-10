@@ -13,17 +13,12 @@ fun TopHeadlinesNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screens.home
+        startDestination = Screens.HOME
     ) {
-        composable(Screens.home) {
-            HomeScreen { articleClicked ->
-                navController.navigate(Screens.detail)
-            }
-        }
-
-        composable(Screens.detail) {
-            //DetailScreen()
+        composable(Screens.HOME) {
+            HomeScreen(
+                isExpandedScreen = isExpandedScreen
+            )
         }
     }
-
 }

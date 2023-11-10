@@ -8,5 +8,6 @@ data class HomeUiState(
     val hasError: Boolean = false,
     val noInternet: Boolean = false,
     val sourceName: String = "",
-    val articleSelected: Article? = null
+    val articleSelected: Article? = null,
+    val isArticleOpen: Boolean = false
 )

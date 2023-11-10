@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,8 +40,7 @@ import org.koin.compose.koinInject
 @Composable
 fun HomeScreen(
     isExpandedScreen: Boolean = false,
-    viewModel: HomeViewModel = koinInject(),
-    navigateToDetail: (Article) -> Unit
+    viewModel: HomeViewModel = koinInject()
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -56,11 +56,15 @@ fun HomeScreen(
                     HomeTopBar(uiState.sourceName)
                 }
             ) { innerPadding ->
-                TwoPaneLayout(
-                    contentModifier = Modifier.padding(innerPadding),
+                AdaptivePane(
+                    isExpandedScreen = isExpandedScreen,
+                    modifier = Modifier.padding(innerPadding),
                     uiState = uiState,
                     onItemClicked = {
                         viewModel.onArticleSelected(it)
+                    },
+                    goBackToHome = {
+                        viewModel.goBackToArticleList()
                     }
                 )
             }
@@ -136,7 +140,7 @@ fun HeadlineListItem(
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(120.dp)
+                    .width(120.dp)
                     .clip(RoundedCornerShape(12.dp)),
                 contentScale = ContentScale.Crop,
                 placeholder = painterResource(id = R.drawable.placeholder_image)

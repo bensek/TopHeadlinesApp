@@ -69,7 +69,13 @@ class HomeViewModel(
 
     fun onArticleSelected(article: Article) {
         _uiState.update {
-            it.copy(articleSelected = article)
+            it.copy(articleSelected = article, isArticleOpen = true)
+        }
+    }
+
+    fun goBackToArticleList() {
+        _uiState.update {
+            it.copy(articleSelected = null, isArticleOpen = false)
         }
     }
 }
