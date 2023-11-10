@@ -38,36 +38,31 @@ import org.koin.compose.koinInject
 
 @Composable
 fun HomeScreen(
+    isExpandedScreen: Boolean = false,
     viewModel: HomeViewModel = koinInject(),
     navigateToDetail: (Article) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Scaffold(
-        topBar = {
-            HomeTopBar(uiState.sourceName)
+    when {
+        uiState.isLoading -> {
+            Box(modifier = Modifier.fillMaxSize()) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            }
         }
-    ) { innerPadding ->
-
-        Box(modifier = Modifier
-            .padding(innerPadding)
-            .fillMaxSize()) {
-            when {
-                uiState.isLoading -> {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        else -> {
+            Scaffold(
+                topBar = {
+                    HomeTopBar(uiState.sourceName)
                 }
-                uiState.hasError -> {
-
-                }
-                uiState.noInternet -> {
-
-                }
-                else -> {
-                    HeadlineList(
-                        articlesList = uiState.articlesList,
-                        onItemClicked = navigateToDetail
-                    )
-                }
+            ) { innerPadding ->
+                TwoPaneLayout(
+                    contentModifier = Modifier.padding(innerPadding),
+                    uiState = uiState,
+                    onItemClicked = {
+                        viewModel.onArticleSelected(it)
+                    }
+                )
             }
         }
     }
@@ -88,17 +83,21 @@ private fun HomeTopBar(sourceName: String) {
 }
 
 @Composable
-private fun HeadlineList(
+fun HeadlineList(
+    modifier: Modifier = Modifier,
     articlesList: List<Article>,
-    onItemClicked: (Article) -> Unit
+    onItemClicked: (Article) -> Unit,
+    articleSelected: Article?
 ) {
     LazyColumn(
+        modifier = modifier,
         contentPadding = PaddingValues(16.dp)
     ) {
         items(articlesList) { article ->
             HeadlineListItem(
                 article = article,
-                onItemClicked = onItemClicked
+                onItemClicked = onItemClicked,
+                isSelected = articleSelected?.title == article.title
             )
             Spacer(Modifier.height(16.dp))
         }
@@ -106,18 +105,25 @@ private fun HeadlineList(
 }
 
 @Composable
-private fun HeadlineListItem(
+fun HeadlineListItem(
     article: Article,
-    onItemClicked: (Article) -> Unit
+    onItemClicked: (Article) -> Unit,
+    isSelected: Boolean = false
 ) {
+    val cardColors = CardDefaults.cardColors(
+        containerColor = if (!isSelected) {
+            MaterialTheme.colorScheme.background
+        } else {
+            MaterialTheme.colorScheme.surfaceVariant
+        }
+    )
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onItemClicked(article) },
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.background
-        ),
+        colors = cardColors,
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Column(

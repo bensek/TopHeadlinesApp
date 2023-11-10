@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.material3.window.size)
     implementation(libs.bundles.retrofit)
     implementation(libs.bundles.koin)
     implementation(libs.coil.compose)

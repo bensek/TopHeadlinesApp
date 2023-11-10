@@ -2,6 +2,7 @@ package com.bensek.topheadlines.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bensek.topheadlines.domain.model.Article
 import com.bensek.topheadlines.domain.repository.HeadlinesRepository
 import com.bensek.topheadlines.domain.repository.SourcesRepository
 import com.bensek.topheadlines.utils.Resource
@@ -64,5 +65,11 @@ class HomeViewModel(
                     }
                 }
             }
+    }
+
+    fun onArticleSelected(article: Article) {
+        _uiState.update {
+            it.copy(articleSelected = article)
+        }
     }
 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TopHeadlines</string>
+    <string name="select_a_headline">Select a headline from the list on the left.</string>
 </resources>

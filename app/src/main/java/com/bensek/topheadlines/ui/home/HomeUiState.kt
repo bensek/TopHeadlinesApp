@@ -7,5 +7,6 @@ data class HomeUiState(
     val isLoading: Boolean = true,
     val hasError: Boolean = false,
     val noInternet: Boolean = false,
-    val sourceName: String = ""
+    val sourceName: String = "",
+    val articleSelected: Article? = null
 )
