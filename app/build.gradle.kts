@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.bundles.retrofit)
     implementation(libs.bundles.koin)
     implementation(libs.coil.compose)
+    implementation(libs.navigation.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

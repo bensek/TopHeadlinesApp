@@ -1,4 +1,4 @@
-package com.bensek.topheadlines.ui.screens.home
+package com.bensek.topheadlines.ui.home
 
 import com.bensek.topheadlines.domain.model.Article
 

@@ -1,4 +1,4 @@
-package com.bensek.topheadlines.ui.screens.home
+package com.bensek.topheadlines.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
