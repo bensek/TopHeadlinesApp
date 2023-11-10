@@ -1,8 +1,11 @@
 package com.bensek.topheadlines.ui.screens.home
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -10,6 +13,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.bensek.topheadlines.domain.model.Article
 import org.koin.compose.koinInject
@@ -18,7 +22,7 @@ import org.koin.compose.koinInject
 fun HomeScreen(
     viewModel: HomeViewModel = koinInject()
 ) {
-    val articlesList by viewModel.articlesList.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
         topBar = {
@@ -26,10 +30,22 @@ fun HomeScreen(
         }
     ) { innerPadding ->
 
-        HeadlineList(
-            modifier = Modifier.padding(innerPadding),
-            articlesList = articlesList
-        )
+        Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
+            when {
+                uiState.isLoading -> {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                }
+                uiState.hasError -> {
+
+                }
+                uiState.noInternet -> {
+
+                }
+                else -> {
+                    HeadlineList(articlesList = uiState.articlesList)
+                }
+            }
+        }
     }
 }
 
@@ -43,12 +59,9 @@ private fun HomeTopBar() {
 
 @Composable
 private fun HeadlineList(
-    modifier: Modifier,
     articlesList: List<Article>
 ) {
-    LazyColumn(
-        modifier = modifier
-    ) {
+    LazyColumn {
         items(articlesList) { article ->
             Text(text = article.title )
         }
