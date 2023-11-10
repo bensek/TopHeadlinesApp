@@ -4,6 +4,6 @@ import com.bensek.topheadlines.domain.model.Article
 import com.bensek.topheadlines.utils.Resource
 
 interface HeadlinesRepository {
-    suspend fun getTopHeadlines(): Resource<List<Article>>
+    suspend fun getTopHeadlines(sourceId: String): Resource<List<Article>>
 }
 

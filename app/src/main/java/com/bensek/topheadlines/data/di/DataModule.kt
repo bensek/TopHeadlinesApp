@@ -4,7 +4,9 @@ import com.bensek.topheadlines.utils.Constants
 import com.bensek.topheadlines.data.remote.ApiKeyInterceptor
 import com.bensek.topheadlines.data.remote.HeadlinesApi
 import com.bensek.topheadlines.data.repository.HeadlinesRepositoryImpl
+import com.bensek.topheadlines.data.repository.SourcesRepositoryImpl
 import com.bensek.topheadlines.domain.repository.HeadlinesRepository
+import com.bensek.topheadlines.domain.repository.SourcesRepository
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -33,5 +35,9 @@ val dataModule = module {
 
     single<HeadlinesRepository> {
         HeadlinesRepositoryImpl(get())
+    }
+
+    single<SourcesRepository> {
+        SourcesRepositoryImpl()
     }
 }

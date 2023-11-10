@@ -15,10 +15,10 @@ class HeadlinesRepositoryImpl(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): HeadlinesRepository {
 
-    override suspend fun getTopHeadlines(): Resource<List<Article>> {
+    override suspend fun getTopHeadlines(sourceId: String): Resource<List<Article>> {
         return withContext(dispatcher) {
              try {
-                val response = api.fetchTopHeadlines()
+                val response = api.fetchTopHeadlines(sourceId)
                 if (response.isSuccessful) {
                     Resource.Success(response.body()?.articles?.map { it.toArticle() })
                 } else {

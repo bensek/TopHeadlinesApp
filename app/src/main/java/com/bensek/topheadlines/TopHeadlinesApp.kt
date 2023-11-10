@@ -2,7 +2,6 @@ package com.bensek.topheadlines
 
 import android.app.Application
 import com.bensek.topheadlines.data.di.dataModule
-import com.bensek.topheadlines.domain.di.domainModule
 import com.bensek.topheadlines.ui.di.uiModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -19,7 +18,7 @@ class TopHeadlinesApp: Application() {
         startKoin {
             androidLogger()
             androidContext(this@TopHeadlinesApp)
-            modules(dataModule, domainModule, uiModule)
+            modules(dataModule, uiModule)
         }
     }
 }
