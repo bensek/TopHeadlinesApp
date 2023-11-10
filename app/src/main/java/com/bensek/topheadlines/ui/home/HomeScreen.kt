@@ -1,5 +1,6 @@
 package com.bensek.topheadlines.ui.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -37,7 +38,8 @@ import org.koin.compose.koinInject
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = koinInject()
+    viewModel: HomeViewModel = koinInject(),
+    navigateToDetail: (Article) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -61,7 +63,10 @@ fun HomeScreen(
 
                 }
                 else -> {
-                    HeadlineList(articlesList = uiState.articlesList)
+                    HeadlineList(
+                        articlesList = uiState.articlesList,
+                        onItemClicked = navigateToDetail
+                    )
                 }
             }
         }
@@ -84,13 +89,17 @@ private fun HomeTopBar(sourceName: String) {
 
 @Composable
 private fun HeadlineList(
-    articlesList: List<Article>
+    articlesList: List<Article>,
+    onItemClicked: (Article) -> Unit
 ) {
     LazyColumn(
         contentPadding = PaddingValues(16.dp)
     ) {
         items(articlesList) { article ->
-            HeadlineListItem(article = article)
+            HeadlineListItem(
+                article = article,
+                onItemClicked = onItemClicked
+            )
             Spacer(Modifier.height(16.dp))
         }
     }
@@ -98,10 +107,13 @@ private fun HeadlineList(
 
 @Composable
 private fun HeadlineListItem(
-    article: Article
+    article: Article,
+    onItemClicked: (Article) -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onItemClicked(article) },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background

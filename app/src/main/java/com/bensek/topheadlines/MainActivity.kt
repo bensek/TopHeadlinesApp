@@ -3,7 +3,7 @@ package com.bensek.topheadlines
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.bensek.topheadlines.ui.home.HomeScreen
+import com.bensek.topheadlines.ui.navigation.NavGraph
 import com.bensek.topheadlines.ui.theme.TopHeadlinesTheme
 
 class MainActivity : ComponentActivity() {
@@ -11,7 +11,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TopHeadlinesTheme {
-                HomeScreen()
+                NavGraph()
             }
         }
     }
