@@ -1,6 +1,6 @@
 package com.bensek.topheadlines.data.di
 
-import com.bensek.topheadlines.core.Constants
+import com.bensek.topheadlines.utils.Constants
 import com.bensek.topheadlines.data.remote.ApiKeyInterceptor
 import com.bensek.topheadlines.data.remote.HeadlinesApi
 import com.bensek.topheadlines.data.repository.HeadlinesRepositoryImpl

@@ -1,4 +1,4 @@
-package com.bensek.topheadlines.core
+package com.bensek.topheadlines.utils
 
 object Constants {
 
