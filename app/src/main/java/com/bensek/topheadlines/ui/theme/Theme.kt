@@ -111,13 +111,9 @@ fun TopHeadlinesTheme(
         }
         WindowWidthSizeClass.Medium -> {
             when (heightSizeClass) {
-                WindowHeightSizeClass.Medium -> {
-                    appDimens = MediumDimens
-                    typography = MediumTypography
-                }
                 WindowHeightSizeClass.Compact -> {
-                    appDimens = MediumCompactDimens
-                    typography = MediumCompactTypography
+                    appDimens = CompactDimens
+                    typography = CompactTypography
                 }
                 else -> {
                     appDimens = MediumDimens
@@ -125,10 +121,10 @@ fun TopHeadlinesTheme(
                 }
             }
         }
-//        WindowWidthSizeClass.Expanded -> {
-//            appDimens = ExpandedDimens
-//            typography = CompactTypography
-//        }
+        WindowWidthSizeClass.Expanded -> {
+            appDimens = ExpandedDimens
+            typography = ExpandedTypography
+        }
         else -> {
             appDimens = CompactDimens
             typography = CompactTypography

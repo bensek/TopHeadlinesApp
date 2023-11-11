@@ -34,7 +34,8 @@ fun HeadlineList(
     modifier: Modifier = Modifier,
     articlesList: List<Article>,
     onItemClicked: (Article) -> Unit,
-    articleSelected: Article?
+    articleSelected: Article?,
+    isExpandedScreen: Boolean = false
 ) {
     val dimens = LocalAppDimens.current
     LazyColumn(
@@ -45,9 +46,10 @@ fun HeadlineList(
             HeadlineListItem(
                 article = article,
                 onItemClicked = onItemClicked,
+                isExpandedScreen = isExpandedScreen,
                 isSelected = articleSelected?.title == article.title
             )
-            Spacer(Modifier.height(dimens.spacingLarge))
+            Spacer(Modifier.height(if (!isExpandedScreen) dimens.spacingLarge else dimens.spacingSmall))
         }
     }
 }
@@ -56,7 +58,8 @@ fun HeadlineList(
 fun HeadlineListItem(
     article: Article,
     onItemClicked: (Article) -> Unit,
-    isSelected: Boolean = false
+    isSelected: Boolean = false,
+    isExpandedScreen: Boolean
 ) {
     val dimens = LocalAppDimens.current
     val cardColors = CardDefaults.cardColors(
@@ -78,7 +81,7 @@ fun HeadlineListItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { onItemClicked(article) }
-                .padding(dimens.spacingLarge),
+                .padding(if (!isExpandedScreen) dimens.spacingLarge else dimens.spacingSmall),
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
@@ -91,7 +94,7 @@ fun HeadlineListItem(
                 contentScale = ContentScale.Crop,
                 placeholder = painterResource(R.drawable.placeholder_image)
             )
-            Spacer(Modifier.width(dimens.spacingLarge))
+            Spacer(Modifier.width(if (!isExpandedScreen) dimens.spacingLarge else dimens.spacingSmall))
             Column {
                 Text(
                     text = article.title,
@@ -100,8 +103,8 @@ fun HeadlineListItem(
                     maxLines = 4,
                     overflow = TextOverflow.Ellipsis
                 )
-                Spacer(Modifier.height(dimens.spacingSmall))
-                if (article.displayDateTime != null) {
+                if (article.displayDateTime != null && !isExpandedScreen) {
+                    Spacer(Modifier.height(dimens.spacingSmall))
                     Text(
                         text = article.displayDateTime,
                         style = MaterialTheme.typography.labelSmall,

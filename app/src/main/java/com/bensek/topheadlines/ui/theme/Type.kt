@@ -43,10 +43,10 @@ val MediumTypography = Typography(
     )
 )
 
-val MediumCompactTypography = Typography(
+val ExpandedTypography = Typography(
     titleLarge = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 18.sp
+        fontSize = 24.sp
     ),
     titleMedium = TextStyle(
         fontWeight = FontWeight.Medium,
@@ -54,11 +54,11 @@ val MediumCompactTypography = Typography(
     ),
     bodySmall = TextStyle(
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp
+        fontSize = 20.sp
     ),
     labelSmall = TextStyle(
         fontWeight = FontWeight.Light,
-        fontSize = 10.sp
+        fontSize = 14.sp
     )
 )
 

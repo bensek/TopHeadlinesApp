@@ -128,7 +128,8 @@ fun OnePane(
             modifier = modifier,
             articlesList = uiState.articlesList,
             onItemClicked = onItemClicked,
-            articleSelected = uiState.articleSelected
+            articleSelected = uiState.articleSelected,
+            isExpandedScreen = false
         )
     } else {
         Crossfade(targetState = uiState.articleSelected, label = "") { post ->
@@ -157,6 +158,7 @@ fun TwoPane(
         HeadlineList(
             articlesList = uiState.articlesList,
             articleSelected = uiState.articleSelected,
+            isExpandedScreen = true,
             modifier = modifier.width(334.dp),
             onItemClicked = onItemClicked
         )

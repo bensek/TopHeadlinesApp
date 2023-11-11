@@ -25,16 +25,9 @@ val MediumDimens = Dimens(
     spacingLarge = 24.dp
 )
 
-val MediumCompactDimens = Dimens(
-    imageSmall = 60.dp,
-    imageLarge = 120.dp,
-    spacingSmall = 8.dp,
-    spacingLarge = 16.dp
-)
-
 val ExpandedDimens = Dimens(
-    imageSmall = 120.dp,
-    imageLarge = 200.dp,
+    imageSmall = 80.dp,
+    imageLarge = 250.dp,
     spacingSmall = 16.dp,
     spacingLarge = 24.dp
 )

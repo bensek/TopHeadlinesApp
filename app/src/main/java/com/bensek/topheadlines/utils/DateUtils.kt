@@ -16,7 +16,7 @@ fun convertToLocalDateTime(dateString: String): LocalDateTime? {
             val formatter = DateTimeFormatter.ofPattern(format)
             return LocalDateTime.parse(dateString, formatter)
         } catch (e: DateTimeParseException) {
-            Log.v(Constants.LOG_TAG, "Failed to parse date: ${e.message}")
+            Log.i(Constants.LOG_TAG, "Failed to parse date: ${e.message}")
         }
     }
     return null
@@ -28,7 +28,7 @@ fun formatDateTime(dateString: String): String? {
     return try {
         localDateTime?.format(outputFormatter)
     } catch (e: Exception) {
-        Log.v(Constants.LOG_TAG, "Failed to format date: ${e.message}")
+        Log.i(Constants.LOG_TAG, "Failed to format date: ${e.message}")
         null
     }
 }
