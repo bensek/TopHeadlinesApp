@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.bundles.koin)
     implementation(libs.coil.compose)
     implementation(libs.navigation.compose)
+    implementation(libs.androidx.biometric)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

@@ -14,6 +14,7 @@ koin-compose = "1.1.0"
 coil = "2.5.0"
 navigation-compose = "2.7.5"
 material3 = "1.1.2"
+biometric = "1.1.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -37,6 +38,7 @@ koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = 
 koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koin-compose" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
+androidx-biometric = { group = "androidx.biometric", name = "biometric", version.ref = "biometric"}
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
