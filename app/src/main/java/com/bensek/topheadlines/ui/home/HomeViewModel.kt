@@ -1,5 +1,6 @@
 package com.bensek.topheadlines.ui.home
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bensek.topheadlines.domain.model.Article
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
+    private val savedStateHandle: SavedStateHandle,
     private val sourcesRepository: SourcesRepository,
     private val headlinesRepository: HeadlinesRepository
 ): ViewModel() {

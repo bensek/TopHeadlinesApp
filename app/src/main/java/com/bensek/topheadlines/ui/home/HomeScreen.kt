@@ -25,12 +25,12 @@ import com.bensek.topheadlines.R
 import com.bensek.topheadlines.domain.model.Article
 import com.bensek.topheadlines.ui.components.HeadlineDetail
 import com.bensek.topheadlines.ui.components.HeadlineList
-import org.koin.compose.koinInject
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(
     isExpandedScreen: Boolean = false,
-    viewModel: HomeViewModel = koinInject()
+    viewModel: HomeViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -159,7 +159,7 @@ fun TwoPane(
             articlesList = uiState.articlesList,
             articleSelected = uiState.articleSelected,
             isExpandedScreen = true,
-            modifier = modifier.width(334.dp),
+            modifier = modifier.width(350.dp),
             onItemClicked = onItemClicked
         )
         Crossfade(targetState = uiState.articleSelected, label = "") { post ->
