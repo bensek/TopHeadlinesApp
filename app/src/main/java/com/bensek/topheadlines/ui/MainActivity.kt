@@ -5,6 +5,7 @@ import BiometricUtil
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -13,10 +14,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.bensek.topheadlines.R
 import com.bensek.topheadlines.ui.navigation.TopHeadlinesApp
-import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity(), BiometricAuthListener {
-    private val mainViewModel: MainActivityViewModel by inject()
+    private val mainViewModel: MainActivityViewModel by viewModels()
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -39,6 +39,7 @@ object BiometricUtil {
             .setSubtitle(subtitle)
             .setDescription(description)
             .setNegativeButtonText("Cancel")
+            .setAllowedAuthenticators(BIOMETRIC_STRONG)
 
         return builder.build()
     }
