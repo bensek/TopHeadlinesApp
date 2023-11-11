@@ -17,11 +17,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.bensek.topheadlines.R
 import com.bensek.topheadlines.domain.model.Article
+import com.bensek.topheadlines.ui.theme.LocalAppDimens
 
 @Composable
 fun DetailScreen(
@@ -29,35 +28,37 @@ fun DetailScreen(
     article: Article
 ) {
     val scrollState = rememberScrollState()
+    val dimens = LocalAppDimens.current
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
-            .padding(16.dp)
+            .padding(dimens.spacingLarge)
     ) {
         AsyncImage(
             model = article.imageUrl,
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
-                .clip(RoundedCornerShape(12.dp)),
+                .height(LocalAppDimens.current.imageHeightLarge)
+                .clip(RoundedCornerShape(dimens.cornerRadius)),
             contentScale = ContentScale.Crop,
             placeholder = painterResource(id = R.drawable.placeholder_image)
         )
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(dimens.spacingLarge))
         Text(
             text = article.title,
-            fontSize = 24.sp,
+            style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.Bold
         )
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(dimens.spacingSmall))
         if (article.description != null) {
             Text(
                 text = article.description,
-                fontSize = 18.sp,
+                style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onBackground,
             )
         }

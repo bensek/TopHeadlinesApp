@@ -9,7 +9,9 @@ import com.bensek.topheadlines.ui.theme.TopHeadlinesTheme
 fun TopHeadlinesApp(
     widthSizeClass: WindowWidthSizeClass
 ) {
-    TopHeadlinesTheme {
+    TopHeadlinesTheme(
+        widthSizeClass = widthSizeClass
+    ) {
         val navController = rememberNavController()
         val isExpandedScreen = widthSizeClass == WindowWidthSizeClass.Expanded
         TopHeadlinesNavGraph(

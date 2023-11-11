@@ -3,8 +3,10 @@ package com.bensek.topheadlines.ui.theme
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
@@ -79,6 +81,7 @@ private val darkColorScheme = darkColorScheme(
 @Composable
 fun TopHeadlinesTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    widthSizeClass: WindowWidthSizeClass,
     content: @Composable () -> Unit
 ) {
     val colorScheme = if (!darkTheme) {
@@ -96,9 +99,34 @@ fun TopHeadlinesTheme(
         }
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    val appDimens: Dimens
+    val typography: Typography
+
+    when (widthSizeClass) {
+        WindowWidthSizeClass.Compact -> {
+            appDimens = CompactDimens
+            typography = CompactTypography
+        }
+        WindowWidthSizeClass.Medium -> {
+            appDimens = MediumDimens
+            typography = MediumTypography
+        }
+//        WindowWidthSizeClass.Expanded -> {
+//            appDimens = ExpandedDimens
+//            typography = CompactTypography
+//        }
+        else -> {
+            appDimens = CompactDimens
+            typography = CompactTypography
+        }
+    }
+
+    ProvideAppUtils(appDimens = appDimens) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = typography,
+            content = content
+        )
+    }
+
 }

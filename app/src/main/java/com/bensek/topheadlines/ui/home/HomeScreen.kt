@@ -31,10 +31,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.bensek.topheadlines.R
 import com.bensek.topheadlines.domain.model.Article
+import com.bensek.topheadlines.ui.theme.LocalAppDimens
 import org.koin.compose.koinInject
 
 @Composable
@@ -93,9 +93,10 @@ fun HeadlineList(
     onItemClicked: (Article) -> Unit,
     articleSelected: Article?
 ) {
+    val dimens = LocalAppDimens.current
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(dimens.spacingLarge)
     ) {
         items(articlesList) { article ->
             HeadlineListItem(
@@ -103,7 +104,7 @@ fun HeadlineList(
                 onItemClicked = onItemClicked,
                 isSelected = articleSelected?.title == article.title
             )
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(dimens.spacingLarge))
         }
     }
 }
@@ -114,6 +115,7 @@ fun HeadlineListItem(
     onItemClicked: (Article) -> Unit,
     isSelected: Boolean = false
 ) {
+    val dimens = LocalAppDimens.current
     val cardColors = CardDefaults.cardColors(
         containerColor = if (!isSelected) {
             MaterialTheme.colorScheme.background
@@ -126,29 +128,29 @@ fun HeadlineListItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onItemClicked(article) },
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(dimens.cornerRadius),
         colors = cardColors,
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(dimens.spacingLarge)
         ) {
             AsyncImage(
                 model = article.imageUrl,
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .width(120.dp)
-                    .clip(RoundedCornerShape(12.dp)),
+                    .width(dimens.imageHeightSmall)
+                    .clip(RoundedCornerShape(dimens.cornerRadius)),
                 contentScale = ContentScale.Crop,
                 placeholder = painterResource(id = R.drawable.placeholder_image)
             )
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(dimens.spacingSmall))
             Text(
                 text = article.title,
-                fontSize = 18.sp,
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
         }
