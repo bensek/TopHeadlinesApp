@@ -59,6 +59,7 @@ private fun HomeContent(
     navigateBack: () -> Unit
 ) {
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             HomeTopBar(uiState.sourceName)
         }

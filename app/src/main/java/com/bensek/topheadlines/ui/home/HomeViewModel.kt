@@ -56,7 +56,7 @@ class HomeViewModel(
                     result.data?.let { articles ->
                         _uiState.update {
                             it.copy(
-                                articlesList = articles,
+                                articlesList = sortArticlesByLatest(articles),
                                 isLoading = false,
                                 hasError = false,
                                 noInternet = false
@@ -65,6 +65,10 @@ class HomeViewModel(
                     }
                 }
             }
+    }
+
+    private fun sortArticlesByLatest(articles: List<Article>): List<Article> {
+        return articles.sortedByDescending { it.dateTime }
     }
 
     fun onArticleSelected(article: Article) {

@@ -1,6 +1,7 @@
 package com.bensek.topheadlines.ui.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -71,7 +72,7 @@ fun HeadlineListItem(
             .fillMaxWidth(),
         shape = RoundedCornerShape(dimens.cornerRadius),
         colors = cardColors,
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Row(
             modifier = Modifier
@@ -91,13 +92,23 @@ fun HeadlineListItem(
                 placeholder = painterResource(R.drawable.placeholder_image)
             )
             Spacer(Modifier.width(dimens.spacingLarge))
-            Text(
-                text = article.title,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onBackground,
-                maxLines = 4,
-                overflow = TextOverflow.Ellipsis
-            )
+            Column {
+                Text(
+                    text = article.title,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    maxLines = 4,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(Modifier.height(dimens.spacingSmall))
+                if (article.displayDateTime != null) {
+                    Text(
+                        text = article.displayDateTime,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
+                }
+            }
         }
     }
 }

@@ -17,6 +17,10 @@ val CompactTypography = Typography(
     bodySmall = TextStyle(
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
+    ),
+    labelSmall = TextStyle(
+        fontWeight = FontWeight.Light,
+        fontSize = 10.sp
     )
 )
 
@@ -32,6 +36,10 @@ val MediumTypography = Typography(
     bodySmall = TextStyle(
         fontWeight = FontWeight.Normal,
         fontSize = 20.sp
+    ),
+    labelSmall = TextStyle(
+        fontWeight = FontWeight.Light,
+        fontSize = 12.sp
     )
 )
 
@@ -47,6 +55,10 @@ val MediumCompactTypography = Typography(
     bodySmall = TextStyle(
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp
+    ),
+    labelSmall = TextStyle(
+        fontWeight = FontWeight.Light,
+        fontSize = 10.sp
     )
 )
 

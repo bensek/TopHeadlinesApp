@@ -12,7 +12,7 @@ data class Dimens(
 )
 
 val CompactDimens = Dimens(
-    imageSmall = 100.dp,
+    imageSmall = 110.dp,
     imageLarge = 160.dp,
     spacingSmall = 8.dp,
     spacingLarge = 16.dp
