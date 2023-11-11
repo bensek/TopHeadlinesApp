@@ -1,20 +1,12 @@
 package com.bensek.topheadlines.ui.home
 
-import androidx.compose.foundation.clickable
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -27,14 +19,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.bensek.topheadlines.R
 import com.bensek.topheadlines.domain.model.Article
-import com.bensek.topheadlines.ui.theme.LocalAppDimens
+import com.bensek.topheadlines.ui.components.HeadlineDetail
+import com.bensek.topheadlines.ui.components.HeadlineList
 import org.koin.compose.koinInject
 
 @Composable
@@ -51,25 +41,37 @@ fun HomeScreen(
             }
         }
         else -> {
-            Scaffold(
-                topBar = {
-                    HomeTopBar(uiState.sourceName)
-                }
-            ) { innerPadding ->
-                AdaptivePane(
-                    isExpandedScreen = isExpandedScreen,
-                    modifier = Modifier.padding(innerPadding),
-                    uiState = uiState,
-                    onItemClicked = {
-                        viewModel.onArticleSelected(it)
-                    },
-                    goBackToHome = {
-                        viewModel.goBackToArticleList()
-                    }
-                )
-            }
+            HomeContent(
+                uiState = uiState,
+                isExpandedScreen = isExpandedScreen,
+                onItemClicked = { viewModel.onArticleSelected(it) },
+                navigateBack = { viewModel.goBackToArticleList() }
+            )
         }
     }
+}
+
+@Composable
+private fun HomeContent(
+    uiState: HomeUiState,
+    isExpandedScreen: Boolean,
+    onItemClicked: (Article) -> Unit,
+    navigateBack: () -> Unit
+) {
+    Scaffold(
+        topBar = {
+            HomeTopBar(uiState.sourceName)
+        }
+    ) { innerPadding ->
+        AdaptivePane(
+            isExpandedScreen = isExpandedScreen,
+            modifier = Modifier.padding(innerPadding),
+            uiState = uiState,
+            onItemClicked = onItemClicked,
+            goBackToHome = navigateBack
+        )
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -87,72 +89,92 @@ private fun HomeTopBar(sourceName: String) {
 }
 
 @Composable
-fun HeadlineList(
-    modifier: Modifier = Modifier,
-    articlesList: List<Article>,
+fun AdaptivePane(
+    isExpandedScreen: Boolean,
+    uiState: HomeUiState,
+    modifier: Modifier,
     onItemClicked: (Article) -> Unit,
-    articleSelected: Article?
+    goBackToHome: () -> Unit
 ) {
-    val dimens = LocalAppDimens.current
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(dimens.spacingLarge)
-    ) {
-        items(articlesList) { article ->
-            HeadlineListItem(
-                article = article,
+    when(isExpandedScreen) {
+        false -> {
+            OnePane(
+                uiState = uiState,
+                modifier = modifier,
                 onItemClicked = onItemClicked,
-                isSelected = articleSelected?.title == article.title
+                goBackToHome = goBackToHome
             )
-            Spacer(Modifier.height(dimens.spacingLarge))
+        }
+        true -> {
+            TwoPane(
+                uiState = uiState,
+                modifier = modifier,
+                onItemClicked = onItemClicked
+            )
         }
     }
 }
 
 @Composable
-fun HeadlineListItem(
-    article: Article,
+fun OnePane(
+    uiState: HomeUiState,
+    modifier: Modifier,
     onItemClicked: (Article) -> Unit,
-    isSelected: Boolean = false
+    goBackToHome: () -> Unit
 ) {
-    val dimens = LocalAppDimens.current
-    val cardColors = CardDefaults.cardColors(
-        containerColor = if (!isSelected) {
-            MaterialTheme.colorScheme.background
-        } else {
-            MaterialTheme.colorScheme.surfaceVariant
-        }
-    )
-
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onItemClicked(article) },
-        shape = RoundedCornerShape(dimens.cornerRadius),
-        colors = cardColors,
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(dimens.spacingLarge)
-        ) {
-            AsyncImage(
-                model = article.imageUrl,
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .width(dimens.imageHeightSmall)
-                    .clip(RoundedCornerShape(dimens.cornerRadius)),
-                contentScale = ContentScale.Crop,
-                placeholder = painterResource(id = R.drawable.placeholder_image)
-            )
-            Spacer(Modifier.height(dimens.spacingSmall))
-            Text(
-                text = article.title,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+    if (!uiState.isArticleOpen) {
+        HeadlineList(
+            modifier = modifier,
+            articlesList = uiState.articlesList,
+            onItemClicked = onItemClicked,
+            articleSelected = uiState.articleSelected
+        )
+    } else {
+        Crossfade(targetState = uiState.articleSelected, label = "") { post ->
+            if (post != null) {
+                HeadlineDetail(
+                    modifier = modifier,
+                    article = post
+                )
+                BackHandler {
+                    goBackToHome()
+                }
+            }
         }
     }
 }
+
+@Composable
+fun TwoPane(
+    uiState: HomeUiState,
+    modifier: Modifier,
+    onItemClicked: (Article) -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        HeadlineList(
+            articlesList = uiState.articlesList,
+            articleSelected = uiState.articleSelected,
+            modifier = modifier.width(334.dp),
+            onItemClicked = onItemClicked
+        )
+        Crossfade(targetState = uiState.articleSelected, label = "") { post ->
+            if (post != null) {
+                HeadlineDetail(
+                    article = post,
+                    modifier = modifier
+                )
+            } else {
+                Box(Modifier.fillMaxSize()) {
+                    Text(
+                        text = stringResource(R.string.select_a_headline),
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }
+        }
+    }
+}
+
+

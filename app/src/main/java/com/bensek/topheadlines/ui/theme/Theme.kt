@@ -6,6 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -82,6 +83,7 @@ private val darkColorScheme = darkColorScheme(
 fun TopHeadlinesTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     widthSizeClass: WindowWidthSizeClass,
+    heightSizeClass: WindowHeightSizeClass,
     content: @Composable () -> Unit
 ) {
     val colorScheme = if (!darkTheme) {
@@ -99,8 +101,8 @@ fun TopHeadlinesTheme(
         }
     }
 
-    val appDimens: Dimens
-    val typography: Typography
+    var appDimens: Dimens = CompactDimens
+    var typography: Typography = CompactTypography
 
     when (widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
@@ -108,8 +110,20 @@ fun TopHeadlinesTheme(
             typography = CompactTypography
         }
         WindowWidthSizeClass.Medium -> {
-            appDimens = MediumDimens
-            typography = MediumTypography
+            when (heightSizeClass) {
+                WindowHeightSizeClass.Medium -> {
+                    appDimens = MediumDimens
+                    typography = MediumTypography
+                }
+                WindowHeightSizeClass.Compact -> {
+                    appDimens = MediumCompactDimens
+                    typography = MediumCompactTypography
+                }
+                else -> {
+                    appDimens = MediumDimens
+                    typography = MediumTypography
+                }
+            }
         }
 //        WindowWidthSizeClass.Expanded -> {
 //            appDimens = ExpandedDimens

@@ -13,9 +13,9 @@ fun TopHeadlinesNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screens.HOME
+        startDestination = TopHeadlinesDestinations.HOME
     ) {
-        composable(Screens.HOME) {
+        composable(TopHeadlinesDestinations.HOME) {
             HomeScreen(
                 isExpandedScreen = isExpandedScreen
             )

@@ -12,8 +12,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val widthSizeClass = calculateWindowSizeClass(this).widthSizeClass
-            TopHeadlinesApp(widthSizeClass)
+            val windowSizeClass = calculateWindowSizeClass(this)
+            TopHeadlinesApp(windowSizeClass)
         }
     }
 }

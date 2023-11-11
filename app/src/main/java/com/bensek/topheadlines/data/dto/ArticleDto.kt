@@ -17,6 +17,7 @@ fun ArticleDto.toArticle(): Article {
     return Article(
         title = title,
         description = description,
-        imageUrl = urlToImage
+        imageUrl = urlToImage,
+        content = content
     )
 }

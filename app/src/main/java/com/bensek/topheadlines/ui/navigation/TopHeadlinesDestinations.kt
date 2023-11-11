@@ -1,5 +1,5 @@
 package com.bensek.topheadlines.ui.navigation
 
-object Screens {
+object TopHeadlinesDestinations {
     const val HOME = "home"
 }

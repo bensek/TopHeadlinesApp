@@ -1,4 +1,4 @@
-package com.bensek.topheadlines.ui.detail
+package com.bensek.topheadlines.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import coil.compose.AsyncImage
 import com.bensek.topheadlines.R
@@ -23,7 +24,7 @@ import com.bensek.topheadlines.domain.model.Article
 import com.bensek.topheadlines.ui.theme.LocalAppDimens
 
 @Composable
-fun DetailScreen(
+fun HeadlineDetail(
     modifier: Modifier = Modifier,
     article: Article
 ) {
@@ -41,7 +42,7 @@ fun DetailScreen(
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(LocalAppDimens.current.imageHeightLarge)
+                .height(LocalAppDimens.current.imageLarge)
                 .clip(RoundedCornerShape(dimens.cornerRadius)),
             contentScale = ContentScale.Crop,
             placeholder = painterResource(id = R.drawable.placeholder_image)
@@ -58,6 +59,15 @@ fun DetailScreen(
         if (article.description != null) {
             Text(
                 text = article.description,
+                fontStyle = FontStyle.Italic,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onBackground,
+            )
+        }
+        Spacer(Modifier.height(dimens.spacingSmall))
+        if (article.content != null) {
+            Text(
+                text = article.content,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onBackground,
             )

@@ -27,11 +27,26 @@ val MediumTypography = Typography(
     ),
     titleMedium = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 20.sp
+        fontSize = 22.sp
     ),
     bodySmall = TextStyle(
         fontWeight = FontWeight.Normal,
+        fontSize = 20.sp
+    )
+)
+
+val MediumCompactTypography = Typography(
+    titleLarge = TextStyle(
+        fontWeight = FontWeight.Bold,
         fontSize = 18.sp
+    ),
+    titleMedium = TextStyle(
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp
+    ),
+    bodySmall = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp
     )
 )
 
