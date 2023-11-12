@@ -3,6 +3,7 @@ package com.bensek.topheadlines.data.di
 import com.bensek.topheadlines.utils.Constants
 import com.bensek.topheadlines.data.remote.ApiKeyInterceptor
 import com.bensek.topheadlines.data.remote.HeadlinesApi
+import com.bensek.topheadlines.data.repository.ArticlesMapper
 import com.bensek.topheadlines.data.repository.HeadlinesRepositoryImpl
 import com.bensek.topheadlines.data.repository.SourcesRepositoryImpl
 import com.bensek.topheadlines.domain.repository.HeadlinesRepository
@@ -33,8 +34,10 @@ val dataModule = module {
             .create(HeadlinesApi::class.java)
     }
 
+    single { ArticlesMapper() }
+
     single<HeadlinesRepository> {
-        HeadlinesRepositoryImpl(get())
+        HeadlinesRepositoryImpl(get(), get())
     }
 
     single<SourcesRepository> {

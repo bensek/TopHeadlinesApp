@@ -4,13 +4,11 @@ import com.bensek.topheadlines.data.dto.SourceDto
 import com.bensek.topheadlines.data.dto.toSource
 import com.bensek.topheadlines.domain.model.Source
 import com.bensek.topheadlines.domain.repository.SourcesRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class SourcesRepositoryImpl: SourcesRepository {
 
-    override fun getCurrentSource(): Flow<Source> {
-        return flow { emit(getBBCNewsSource()) }
+    override fun getCurrentSource(): Source {
+        return getBBCNewsSource()
     }
 
      private fun getBBCNewsSource(): Source {

@@ -1,6 +1,6 @@
 package com.bensek.topheadlines.data.repository
 
-import com.bensek.topheadlines.data.dto.toArticle
+import com.bensek.topheadlines.data.dto.ArticleDto
 import com.bensek.topheadlines.data.remote.HeadlinesApi
 import com.bensek.topheadlines.domain.model.Article
 import com.bensek.topheadlines.domain.repository.HeadlinesRepository
@@ -12,6 +12,7 @@ import java.io.IOException
 
 class HeadlinesRepositoryImpl(
     private val api: HeadlinesApi,
+    private val mapper: ArticlesMapper,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): HeadlinesRepository {
 
@@ -20,7 +21,27 @@ class HeadlinesRepositoryImpl(
              try {
                 val response = api.fetchTopHeadlines(sourceId)
                 if (response.isSuccessful) {
-                    Resource.Success(response.body()?.articles?.map { it.toArticle() })
+                    if (response.body()?.articles != null) {
+                        Resource.Success(mapper(response.body()?.articles!!))
+                    } else {
+                        Resource.Error("Articles list is null")
+                    }
+                } else {
+                    Resource.Error(response.errorBody()?.string() ?: "An error occurred")
+                }
+            } catch (e: IOException) {
+                Resource.Error("No internet connection. Please check your network settings and try again.")
+            } catch (e: Exception) {
+                Resource.Error(e.message ?: "Failure")
+            }
+        }
+    }
+    override suspend fun getTopHeadlines2(sourceId: String): Resource<List<ArticleDto>> {
+        return withContext(dispatcher) {
+            try {
+                val response = api.fetchTopHeadlines(sourceId)
+                if (response.isSuccessful) {
+                    Resource.Success(response.body()?.articles)
                 } else {
                     Resource.Error(response.errorBody()?.string() ?: "An error occurred")
                 }

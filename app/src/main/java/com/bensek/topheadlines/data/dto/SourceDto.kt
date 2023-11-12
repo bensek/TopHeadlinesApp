@@ -14,7 +14,7 @@ data class SourceDto(
 
 fun SourceDto.toSource(): Source {
     return Source(
-        id = id,
+        id = id ?: "",
         name = name
     )
 }

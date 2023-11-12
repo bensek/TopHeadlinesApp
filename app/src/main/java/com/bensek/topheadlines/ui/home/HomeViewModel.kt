@@ -28,17 +28,10 @@ class HomeViewModel(
 
     fun initializeNewsSource() {
         viewModelScope.launch {
-            sourcesRepository.getCurrentSource().collect { source ->
-                updateSourceName(source.name)
-                source.id?.let {
-                    getTopHeadlines(it)
-                }
-            }
+            val source = sourcesRepository.getCurrentSource()
+            _uiState.update { it.copy(sourceName = source.name) }
+            getTopHeadlines(source.id)
         }
-    }
-
-    private fun updateSourceName(name: String) {
-        _uiState.update { it.copy(sourceName = name) }
     }
 
     private suspend fun getTopHeadlines(sourceId: String) {

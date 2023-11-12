@@ -25,7 +25,7 @@ fun convertToLocalDateTime(dateString: String): LocalDateTime? {
 
 fun formatDateTime(dateString: String): String? {
     val localDateTime = convertToLocalDateTime(dateString)
-    val outputFormatter = DateTimeFormatter.ofPattern("EEE dd, MMM yyyy | HH:mm a")
+    val outputFormatter = DateTimeFormatter.ofPattern("EEE dd, MMM yyyy | HH:mm")
     return try {
         localDateTime?.format(outputFormatter)
     } catch (e: Exception) {
