@@ -2,11 +2,14 @@ package com.bensek.topheadlines.ui.home
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -40,6 +43,23 @@ fun HomeScreen(
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
         }
+        uiState.hasError -> {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                uiState.errorMessage?.let { error ->
+                    Text(text = error, modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.CenterHorizontally))
+                    Button(onClick = { viewModel.initializeNewsSource() }) {
+                        Text(text = stringResource(R.string.try_again))
+                    }
+                }
+            }
+        }
+
         else -> {
             HomeContent(
                 uiState = uiState,

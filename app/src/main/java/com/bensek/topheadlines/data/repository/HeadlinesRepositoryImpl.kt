@@ -22,10 +22,10 @@ class HeadlinesRepositoryImpl(
                 if (response.isSuccessful) {
                     Resource.Success(response.body()?.articles?.map { it.toArticle() })
                 } else {
-                    Resource.Error(response.message())
+                    Resource.Error(response.errorBody()?.string() ?: "An error occurred")
                 }
             } catch (e: IOException) {
-                Resource.NetworkFailure()
+                Resource.Error("No internet connection. Please check your network settings and try again.")
             } catch (e: Exception) {
                 Resource.Error(e.message ?: "Failure")
             }

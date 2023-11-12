@@ -26,7 +26,7 @@ class HomeViewModel(
         initializeNewsSource()
     }
 
-    private fun initializeNewsSource() {
+    fun initializeNewsSource() {
         viewModelScope.launch {
             sourcesRepository.getCurrentSource().collect { source ->
                 updateSourceName(source.name)
@@ -42,31 +42,30 @@ class HomeViewModel(
     }
 
     private suspend fun getTopHeadlines(sourceId: String) {
+        _uiState.update { it.copy(isLoading = true, hasError = false) }
 
-            when(val result = headlinesRepository.getTopHeadlines(sourceId)) {
-                is Resource.Error -> {
-                    _uiState.update {
-                        it.copy(hasError = true)
-                    }
+        when(val result = headlinesRepository.getTopHeadlines(sourceId)) {
+            is Resource.Error -> {
+                _uiState.update {
+                    it.copy(
+                        hasError = true,
+                        errorMessage = result.message,
+                        isLoading = false
+                    )
                 }
-                is Resource.NetworkFailure -> {
+            }
+            is Resource.Success -> {
+                result.data?.let { articles ->
                     _uiState.update {
-                        it.copy(noInternet = true)
-                    }
-                }
-                is Resource.Success -> {
-                    result.data?.let { articles ->
-                        _uiState.update {
-                            it.copy(
-                                articlesList = sortArticlesByLatest(articles),
-                                isLoading = false,
-                                hasError = false,
-                                noInternet = false
-                            )
-                        }
+                        it.copy(
+                            articlesList = sortArticlesByLatest(articles),
+                            isLoading = false,
+                            hasError = false
+                        )
                     }
                 }
             }
+        }
     }
 
     private fun sortArticlesByLatest(articles: List<Article>): List<Article> {

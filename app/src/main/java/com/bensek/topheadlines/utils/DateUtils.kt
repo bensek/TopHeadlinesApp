@@ -7,6 +7,7 @@ import java.time.format.DateTimeParseException
 
 val availableDateFormats = listOf(
     "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS'Z'",
+    "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'",
     "yyyy-MM-dd'T'HH:mm:ss'Z'"
 )
 
